@@ -60,7 +60,7 @@ MindRoot requires **zero installation, zero dependencies, zero build tools.**
 
 ### Option 1 — Just open it
 ```bash
-git clone https://github.com/YOUR_USERNAME/mindroot.git
+git clone https://github.com/vanshika114/mindroot.git
 cd mindroot
 # Open index.html in your browser — that's it.
 ```
