@@ -16,9 +16,7 @@ No tracking. No subscriptions. No cloud lock-in. No frameworks. Just three files
 ## 📸 Preview
 
 > Today Dashboard · CBT Check-in · Journal · Breathwork · Ritual · Affirmations · Trends
-<img width="959" height="437" alt="image" src="https://github.com/user-attachments/assets/d97bda88-eda3-4b94-80c6-9733d4ebd2e1" />
 
-<img width="919" height="438" alt="image" src="https://github.com/user-attachments/assets/69eb8774-87fb-4796-aa65-77f32a487fc8" />
 
 
 
