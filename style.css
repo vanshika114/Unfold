@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   MINDROOT — style.css
+   Unfold — style.css
    ═══════════════════════════════════════════════ */
 
 /* ─── CSS VARIABLES ─── */
@@ -470,6 +470,7 @@ img { max-width: 100%; }
 .energy-slider-wrap { display: flex; flex-direction: column; gap: 16px; }
 .energy-slider {
   width: 100%;
+  appearance: none;
   -webkit-appearance: none;
   height: 6px;
   border-radius: 3px;
