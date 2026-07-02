@@ -1,11 +1,11 @@
-# 🌿 MindRoot
+# 🌿 Unfold
 
 > A psychology-backed, offline-first personal growth companion — open source, free forever.
 
 
 ---
 
-MindRoot is a **free, open-source** daily growth companion that blends psychology, productivity, and spirituality into one clean, offline-capable web app.
+Unfold is a **free, open-source** daily growth companion that blends psychology, productivity, and spirituality into one clean, offline-capable web app.
 
 No tracking. No subscriptions. No cloud lock-in. No frameworks. Just three files and your browser.
 
