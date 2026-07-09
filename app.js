@@ -426,7 +426,7 @@ function updateGreeting() {
   const greeting = generateGreeting();
   const titleEl = document.querySelector(".page-title");
   if (titleEl) {
-    titleEl.innerHTML = `${greeting.timeGreeting} ${greeting.emoji}. <br><em>${greeting.contextual}</em>`;
+    titleEl.innerHTML = `${greeting.timeGreeting}. <br><em>${greeting.contextual}</em>`;
   }
 }
 
@@ -687,7 +687,7 @@ function renderEntries() {
   const list = document.getElementById("entriesList");
   if (!list) return;
   if (!entries.length) {
-    list.innerHTML = '<p class="empty-state">No entries yet. Write your first one →</p>';
+    list.innerHTML = '<p class="empty-state">Your story begins with a single page.</p>';
     return;
   }
   list.innerHTML = entries.slice(0, 10).map(e => `
