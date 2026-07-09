@@ -104,6 +104,98 @@ const CBT_TIPS = {
   "none": "Excellent self-awareness. Keep noticing your thoughts with curiosity, not judgment.",
 };
 
+/* ─── DATA: GREETINGS ─── */
+const TIME_BASED_GREETINGS = {
+  morning: [
+    { text: "Good morning", emoji: "☀️" },
+    { text: "Good morning", emoji: "🌤" },
+  ],
+  afternoon: [
+    { text: "Good afternoon", emoji: "🌤" },
+    { text: "Good afternoon", emoji: "☕" },
+  ],
+  evening: [
+    { text: "Good evening", emoji: "🌙" },
+    { text: "Good evening", emoji: "🌆" },
+  ],
+  night: [
+    { text: "Good night", emoji: "🌌" },
+    { text: "Good night", emoji: "✨" },
+  ],
+};
+
+const CONTEXTUAL_GREETINGS = {
+  // First visit / no history
+  firstVisit: [
+    "Welcome to Unfold.",
+    "It's nice to meet you.",
+    "Begin wherever you are.",
+  ],
+
+  // Returning after absence
+  returningAfterAbsence: [
+    "Welcome back.",
+    "It's been a while.",
+    "Good to see you again.",
+  ],
+
+  // Consistent check-ins (streak >= 3)
+  consistentCheckin: [
+    "You've been checking in consistently.",
+    "Your dedication shows.",
+    "Small moments add up.",
+  ],
+
+  // Strong streak (streak >= 7)
+  strongStreak: [
+    "Your streak is growing strong.",
+    "You're building something meaningful.",
+    "Consistency is beautiful.",
+  ],
+
+  // Yesterday was low mood
+  yesterdayLow: [
+    "Yesterday seemed a little heavy.",
+    "I hope today gives you more breathing room.",
+    "Be gentle with yourself today.",
+  ],
+
+  // Yesterday was high mood
+  yesterdayHigh: [
+    "Yesterday was a good day.",
+    "Carry that warmth forward.",
+    "You're doing wonderfully.",
+  ],
+
+  // Multiple journal entries
+  journalActive: [
+    "Your reflections are accumulating.",
+    "Your inner world is rich.",
+    "Keep writing your truth.",
+  ],
+
+  // Ritual completed
+  ritualComplete: [
+    "You completed your ritual today.",
+    "Sacred moments matter.",
+    "You honored your practice.",
+  ],
+
+  // Quiet check-ins (low energy consistently)
+  quietCheckins: [
+    "Three quiet check-ins in a row.",
+    "Rest is also progress.",
+    "Honor your need for stillness.",
+  ],
+
+  // General return
+  generalReturn: [
+    "Welcome back.",
+    "It's nice to see you again.",
+    "Take today one gentle step at a time.",
+  ],
+};
+
 /* ─── STATE ─── */
 let state = {
   currentPage: "home",
@@ -254,6 +346,90 @@ function closeMobileSidebar() {
   document.querySelector(".sidebar-overlay")?.classList.remove("active");
 }
 
+/* ─── GREETING SYSTEM ─── */
+function getTimeOfDay() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  if (hour >= 17 && hour < 21) return "evening";
+  return "night";
+}
+
+function getRandomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function analyzeUserContext() {
+  const checkins = load("checkins", []);
+  const journalEntries = load("journalEntries", []);
+  const ritualSteps = load("ritualSteps", []);
+  const today = todayKey();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayKey = yesterday.toISOString().split("T")[0];
+
+  const streak = calcStreak(checkins);
+  const hasHistory = checkins.length > 0 || journalEntries.length > 0;
+
+  if (!hasHistory) return "firstVisit";
+
+  // Check for absence (last check-in was more than 3 days ago)
+  if (checkins.length > 0) {
+    const lastCheckin = new Date(checkins[0].date);
+    const daysSinceLast = Math.floor((new Date() - lastCheckin) / (1000 * 60 * 60 * 24));
+    if (daysSinceLast > 3) return "returningAfterAbsence";
+  }
+
+  // Check yesterday's mood
+  const yesterdayCheckin = checkins.find(c => c.date === yesterdayKey);
+  if (yesterdayCheckin) {
+    if (yesterdayCheckin.mood <= 2) return "yesterdayLow";
+    if (yesterdayCheckin.mood >= 4) return "yesterdayHigh";
+  }
+
+  // Check ritual completion today
+  const ritualDone = ritualSteps.length > 0 && ritualSteps.every(s => s.done);
+  if (ritualDone) return "ritualComplete";
+
+  // Check streak strength
+  if (streak >= 7) return "strongStreak";
+  if (streak >= 3) return "consistentCheckin";
+
+  // Check journal activity
+  if (journalEntries.length >= 5) return "journalActive";
+
+  // Check for quiet check-ins (low energy)
+  const recentCheckins = checkins.slice(0, 3);
+  if (recentCheckins.length >= 3 && recentCheckins.every(c => c.energy <= 4)) {
+    return "quietCheckins";
+  }
+
+  return "generalReturn";
+}
+
+function generateGreeting() {
+  const timeOfDay = getTimeOfDay();
+  const context = analyzeUserContext();
+  
+  const timeGreeting = getRandomItem(TIME_BASED_GREETINGS[timeOfDay]);
+  const contextualMessages = CONTEXTUAL_GREETINGS[context] || CONTEXTUAL_GREETINGS.generalReturn;
+  const contextualMessage = getRandomItem(contextualMessages);
+
+  return {
+    timeGreeting: timeGreeting.text,
+    emoji: timeGreeting.emoji,
+    contextual: contextualMessage,
+  };
+}
+
+function updateGreeting() {
+  const greeting = generateGreeting();
+  const titleEl = document.querySelector(".page-title");
+  if (titleEl) {
+    titleEl.innerHTML = `${greeting.timeGreeting} ${greeting.emoji}. <br><em>${greeting.contextual}</em>`;
+  }
+}
+
 /* ─── HOME ─── */
 function initHome() {
   refreshHome();
@@ -266,6 +442,9 @@ function initHome() {
 }
 
 function refreshHome() {
+  // Update greeting
+  updateGreeting();
+
   // Mood
   const checkins = load("checkins", []);
   const today = todayKey();
