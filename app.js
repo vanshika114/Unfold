@@ -2,6 +2,40 @@
     Unfold— app.js
    ═══════════════════════════════════════════════ */
 
+/* ─── DATA: THEMES ─── */
+const THEMES = {
+  light: {
+    name: "Light",
+    icon: "☀️",
+    description: "Clean and minimal"
+  },
+  dark: {
+    name: "Dark",
+    icon: "🌙",
+    description: "Easy on the eyes"
+  },
+  forest: {
+    name: "Forest",
+    icon: "🌲",
+    description: "Natural and grounding"
+  },
+  lavender: {
+    name: "Lavender",
+    icon: "💜",
+    description: "Calm and serene"
+  },
+  midnight: {
+    name: "Midnight",
+    icon: "🌌",
+    description: "Deep and peaceful"
+  },
+  sunset: {
+    name: "Sunset",
+    icon: "🌅",
+    description: "Warm and cozy"
+  }
+};
+
 /* ─── DATA: QUOTES ─── */
 const DAILY_QUOTES = [
   { text: "You have power over your mind, not outside events. Realize this, and you will find strength.", author: "Marcus Aurelius" },
@@ -107,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initRitual();
   initAffirmations();
   initTrends();
+  initSettings();
   initMobileMenu();
 });
 
@@ -163,6 +198,7 @@ function navigateTo(page) {
   // Refresh home data when going home
   if (page === "home") refreshHome();
   if (page === "trends") renderTrends();
+  if (page === "settings") renderThemeGrid();
 }
 
 /* ─── THEME ─── */
@@ -176,15 +212,20 @@ function initTheme() {
 
 function toggleTheme() {
   const current = document.body.dataset.theme;
-  const next = current === "dark" ? "light" : "dark";
-  applyTheme(next);
-  save("theme", next);
+  const themeKeys = Object.keys(THEMES);
+  const currentIndex = themeKeys.indexOf(current);
+  const nextIndex = (currentIndex + 1) % themeKeys.length;
+  const nextTheme = themeKeys[nextIndex];
+  applyTheme(nextTheme);
+  save("theme", nextTheme);
 }
 
 function applyTheme(theme) {
+  if (!THEMES[theme]) theme = "light";
   document.body.dataset.theme = theme;
-  const icon = theme === "dark" ? "☀️" : "🌙";
-  const label = theme === "dark" ? "Light mode" : "Dark mode";
+  const themeData = THEMES[theme];
+  const icon = themeData.icon;
+  const label = themeData.name + " mode";
   document.querySelectorAll(".theme-icon").forEach(el => el.textContent = icon);
   document.querySelectorAll(".theme-label").forEach(el => el.textContent = label);
   document.querySelectorAll(".theme-toggle-mobile").forEach(el => el.textContent = icon);
@@ -802,6 +843,36 @@ function unsaveAffirmation(idx) {
   renderSaved();
 }
 
+/* ─── SETTINGS ─── */
+function initSettings() {
+  renderThemeGrid();
+}
+
+function renderThemeGrid() {
+  const grid = document.getElementById("themeGrid");
+  if (!grid) return;
+
+  const currentTheme = document.body.dataset.theme || "light";
+
+  grid.innerHTML = Object.entries(THEMES).map(([key, theme]) => `
+    <div class="theme-card ${key === currentTheme ? "active" : ""}" data-theme="${key}" onclick="selectTheme('${key}')">
+      <div class="theme-card-check">✓</div>
+      <div class="theme-card-preview">${theme.icon}</div>
+      <div class="theme-card-info">
+        <div class="theme-card-name">${theme.name}</div>
+        <div class="theme-card-desc">${theme.description}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function selectTheme(themeKey) {
+  if (!THEMES[themeKey]) return;
+  applyTheme(themeKey);
+  save("theme", themeKey);
+  renderThemeGrid();
+}
+
 /* ─── TRENDS ─── */
 function initTrends() {
   renderTrends();
@@ -997,4 +1068,5 @@ function renderDistortionBars(distCounts) {
 window.toggleStep = toggleStep;
 window.deleteStep = deleteStep;
 window.unsaveAffirmation = unsaveAffirmation;
+window.selectTheme = selectTheme;
 window.loadEntry = loadEntry;

@@ -4,6 +4,17 @@
 
 /* ─── CSS VARIABLES ─── */
 :root {
+  --radius: 14px;
+  --radius-sm: 8px;
+  --sidebar-w: 220px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── LIGHT THEME ─── */
+[data-theme="light"] {
   --bg: #F7F4EF;
   --bg2: #EEEAE2;
   --bg3: #E4DFD5;
@@ -22,17 +33,11 @@
   --coral-light: #FAEDE9;
   --purple: #5B4B8A;
   --purple-light: #EEEAF7;
-  --radius: 14px;
-  --radius-sm: 8px;
   --shadow: 0 2px 12px rgba(0,0,0,0.07);
   --shadow-md: 0 4px 24px rgba(0,0,0,0.10);
-  --sidebar-w: 220px;
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-mono: 'DM Mono', monospace;
-  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ─── DARK THEME ─── */
 [data-theme="dark"] {
   --bg: #131210;
   --bg2: #1C1A17;
@@ -54,6 +59,102 @@
   --purple-light: #1E1830;
   --shadow: 0 2px 12px rgba(0,0,0,0.3);
   --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+/* ─── FOREST THEME ─── */
+[data-theme="forest"] {
+  --bg: #E8EFE4;
+  --bg2: #D9E6D0;
+  --bg3: #CADDBC;
+  --surface: #F5F9F1;
+  --surface2: #E8F2E3;
+  --border: #B8C9A8;
+  --text: #2D3A2E;
+  --text2: #4A5C4A;
+  --text3: #7A8B7A;
+  --accent: #4A7C59;
+  --accent2: #5D9A6E;
+  --accent-light: #D4E8DB;
+  --gold: #8B7355;
+  --gold-light: #F5F0E8;
+  --coral: #C47055;
+  --coral-light: #F5E8E0;
+  --purple: #6B5B7A;
+  --purple-light: #EBE8F0;
+  --shadow: 0 2px 12px rgba(45,58,46,0.08);
+  --shadow-md: 0 4px 24px rgba(45,58,46,0.12);
+}
+
+/* ─── LAVENDER THEME ─── */
+[data-theme="lavender"] {
+  --bg: #F5F3F9;
+  --bg2: #EBE8F2;
+  --bg3: #E0DCEB;
+  --surface: #FFFFFF;
+  --surface2: #F8F6FC;
+  --border: #D4D0E0;
+  --text: #2A2835;
+  --text2: #545268;
+  --text3: #8A8898;
+  --accent: #7B6B9A;
+  --accent2: #9585B4;
+  --accent-light: #E8E4F2;
+  --gold: #A08060;
+  --gold-light: #F8F4EC;
+  --coral: #C46050;
+  --coral-light: #F8E8E4;
+  --purple: #8B7BA0;
+  --purple-light: #EDE8F5;
+  --shadow: 0 2px 12px rgba(42,40,53,0.07);
+  --shadow-md: 0 4px 24px rgba(42,40,53,0.10);
+}
+
+/* ─── MIDNIGHT THEME ─── */
+[data-theme="midnight"] {
+  --bg: #0F1219;
+  --bg2: #161A24;
+  --bg3: #1D2230;
+  --surface: #1A1E28;
+  --surface2: #242A38;
+  --border: #2E3548;
+  --text: #E8ECF5;
+  --text2: #AAB0C0;
+  --text3: #6A7088;
+  --accent: #6B8DB8;
+  --accent2: #8AA8D0;
+  --accent-light: #1A2840;
+  --gold: #B8A070;
+  --gold-light: #2A2820;
+  --coral: #D47060;
+  --coral-light: #2A1A18;
+  --purple: #9B8BB8;
+  --purple-light: #1A1828;
+  --shadow: 0 2px 12px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+/* ─── SUNSET THEME ─── */
+[data-theme="sunset"] {
+  --bg: #F9F2EB;
+  --bg2: #F2E6D8;
+  --bg3: #EBD9C5;
+  --surface: #FFFFFF;
+  --surface2: #F8F0E8;
+  --border: #D9C8B0;
+  --text: #2A2420;
+  --text2: #5C5048;
+  --text3: #9A8A80;
+  --accent: #C48A5A;
+  --accent2: #D4A070;
+  --accent-light: #F8E8DC;
+  --gold: #B89050;
+  --gold-light: #FAF4EC;
+  --coral: #C46050;
+  --coral-light: #F8E4E0;
+  --purple: #7A6B5A;
+  --purple-light: #F0ECE8;
+  --shadow: 0 2px 12px rgba(42,36,32,0.08);
+  --shadow-md: 0 4px 24px rgba(42,36,32,0.12);
 }
 
 /* ─── RESET ─── */
@@ -1029,6 +1130,167 @@ canvas#moodChart { max-width: 100%; display: block; }
   color: var(--text3);
   font-style: italic;
   padding: 8px 0;
+}
+
+/* ─── SETTINGS ─── */
+.settings-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 800px;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-section-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.settings-section-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.theme-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-card.active {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.theme-card-preview {
+  height: 60px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.theme-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.theme-card-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.theme-card-desc {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+
+.theme-card-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+}
+
+.theme-card.active .theme-card-check {
+  display: flex;
+}
+
+/* Theme preview backgrounds */
+.theme-card[data-theme="light"] .theme-card-preview {
+  background: #F7F4EF;
+  color: #3D6B4F;
+}
+.theme-card[data-theme="dark"] .theme-card-preview {
+  background: #131210;
+  color: #5A9E72;
+}
+.theme-card[data-theme="forest"] .theme-card-preview {
+  background: #E8EFE4;
+  color: #4A7C59;
+}
+.theme-card[data-theme="lavender"] .theme-card-preview {
+  background: #F5F3F9;
+  color: #7B6B9A;
+}
+.theme-card[data-theme="midnight"] .theme-card-preview {
+  background: #0F1219;
+  color: #6B8DB8;
+}
+.theme-card[data-theme="sunset"] .theme-card-preview {
+  background: #F9F2EB;
+  color: #C48A5A;
+}
+
+.about-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.about-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.about-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.about-version {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  margin-top: 8px;
 }
 
 /* ─── RESPONSIVE ─── */
